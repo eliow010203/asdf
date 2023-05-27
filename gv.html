@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
+        html{
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #allframe{
+            width: 100%;
+            height: 100vh;
+            background-color: rgb(6, 5, 39);
+            position: absolute;
+        }
+        #canvas{
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="allframe">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        let canvas = document.getElementById('canvas')
+        function resize_canvas(){
+            canvas.width=`${window.innerWidth}`
+            canvas.height=`${window.innerHeight}`
+        }
+        resize_canvas()
+        window.addEventListener('resize',function(){
+            resize_canvas()
+        })
+        let ctx = canvas.getContext('2d')
+        class objposition{
+            constructor(posx, posy){
+                this.posx = posx
+                this.posy = posy
+            }
+        }
+        function randomnum(max=Number){
+            return Math.floor(Math.random()*max)
+        }
+
+        let positionarray = new Array
+        let poslistmax = 2000
+
+        function positionarrayinput(){
+            for(i=0;i<poslistmax;i++){
+                let nowobj = new objposition(randomnum(window.innerWidth), randomnum(window.innerHeight))
+                positionarray.push(nowobj)
+            }
+        }
+
+        function drawstroke(color=String){
+            ctx.strokeStyle = `${color}`
+            ctx.stroke()
+        }
+
+        function return_rad(angle){
+            return angle * Math.PI/180
+        }
+        positionarrayinput()
+
+        window.addEventListener('mousemove',function(e){
+            ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
+
+            // ctx.beginPath();
+            // ctx.arc(e.pageX, e.pageY, 1000, 0, 2 * Math.PI);
+            // drawstroke('#fff')
+
+            // ctx.beginPath();
+            // ctx.arc(e.pageX, e.pageY, 100, 0, 2 * Math.PI);
+            // drawstroke('#fff')
+
+            positionarray.forEach((thisobj)=>{
+                ctx.beginPath();
+                ctx.arc(thisobj.posx, thisobj.posy, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = `#f00fff`
+                ctx.fill()
+                ctx.closePath()
+            })
+
+
+            // ctx.beginPath()
+            // positionarray.forEach((thisobj)=>{
+            //     ctx.moveTo(thisobj.posx, thisobj.posy)
+            //     ctx.lineTo(e.pageX, e.pageY)
+            // })
+            // drawstroke('#00ff0011')
+
+
+            // positionarray.forEach((thisobj)=>{
+            //     ctx.fillStyle='#fff'
+            //     ctx.font = "10px sans-serif";
+            //     ctx.fillText(`${Math.floor(Math.abs(Math.sqrt(Math.pow((thisobj.posx-e.pageX),2) + Math.pow((thisobj.posy-e.pageY),2))))}`, thisobj.posx-10, thisobj.posy-7);
+            //     ctx.fillStyle='#fff000'
+            //     ctx.font = "10px sans-serif";
+            //     if(Math.round((Math.atan2((thisobj.posx-e.pageX),(thisobj.posy-e.pageY))/Math.PI)*180)>0){
+            //         ctx.fillText(`${Math.round((Math.atan2((thisobj.posx-e.pageX),(thisobj.posy-e.pageY))/Math.PI)*180)}`, thisobj.posx-10, thisobj.posy+15);
+            //     }else{
+            //         ctx.fillText(`${Math.round((Math.atan2((thisobj.posx-e.pageX),(thisobj.posy-e.pageY))/Math.PI)*180)+360}`, thisobj.posx-10, thisobj.posy+15);
+            //     }
+            // })
+
+
+        })
+
+    </script>
+</body>
+</html>
